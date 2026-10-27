@@ -1,19 +1,19 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-# ۱. داده‌های نرخ اصابت به ازای ظرفیت‌های مختلف
+# 1. Hit ratio metrics across working set capacities
 capacities = ["10 slots (3%)", "25 slots (8%)", "50 slots (16%)", "100 slots (33%)", "150 slots (50%)"]
 lru_hit_ratios = [34.2, 48.5, 62.1, 74.8, 81.3]
 lfu_hit_ratios = [38.1, 52.4, 65.7, 77.2, 83.1]
 
-# ۲. داده‌های زمان تاخیر دسترسی (تاییدیه O(1))
+# 2. Execution latency metrics verifying O(1) invariance
 operations = [1000, 5000, 10000, 25000, 50000]
-lru_latencies = [1.25, 1.26, 1.24, 1.27, 1.25] # میکروثانیه
+lru_latencies = [1.25, 1.26, 1.24, 1.27, 1.25]  # in microseconds
 
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(13, 5), dpi=300)
 plt.style.use('seaborn-v0_8-whitegrid' if 'seaborn-v0_8-whitegrid' in plt.style.available else 'default')
 
-# نمودار ۱: Hit Ratio Comparison
+# Subplot 1: Hit Ratio Comparison
 x = np.arange(len(capacities))
 width = 0.35
 ax1.bar(x - width/2, lru_hit_ratios, width, label='LRU (Doubly Linked List)', color='#3498db', edgecolor='black', alpha=0.9)
@@ -29,7 +29,7 @@ for i in range(len(capacities)):
     ax1.text(x[i] - width/2, lru_hit_ratios[i] + 1.5, f"{lru_hit_ratios[i]}%", ha='center', fontsize=8.5, fontweight='bold')
     ax1.text(x[i] + width/2, lfu_hit_ratios[i] + 1.5, f"{lfu_hit_ratios[i]}%", ha='center', fontsize=8.5, fontweight='bold')
 
-# نمودار ۲: O(1) Time Complexity Verification
+# Subplot 2: O(1) Time Complexity Verification
 ax2.plot(operations, lru_latencies, color='#e74c3c', marker='o', linewidth=2.5, markersize=8, label='Observed Get/Put Latency')
 ax2.axhline(1.25, color='black', linestyle='--', linewidth=1.5, alpha=0.7, label='Theoretical O(1) Flat Horizon')
 ax2.set_xlabel('Cumulative Request Operations', fontsize=11, fontweight='bold')
@@ -42,4 +42,4 @@ plt.tight_layout()
 output_filename = "cache_benchmark.png"
 plt.savefig(output_filename, dpi=300, bbox_inches='tight')
 plt.close()
-print(f"Cache benchmark figure saved as: {output_filename}")
+print(f"Cache benchmark figure successfully saved as: {output_filename}")
